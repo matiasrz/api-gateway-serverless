@@ -30,7 +30,7 @@ provider:
     STAGE: ${sls:stage}
 
     # TABLE ENVIRONMENT VARIABLES
-    Table: ${file(./database/serverless.yml):custom.TABLE_NAME}
+    Table: ${file(./database/serverless.yml):custom.MAIN_TABLE_NAME}
     
   iamRoleStatements: ${file(./utils/_iam.yml)}
 

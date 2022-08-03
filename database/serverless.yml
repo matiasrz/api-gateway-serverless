@@ -1,0 +1,58 @@
+# ST: Single-Table design
+service: project-st-database
+
+custom:
+  region: eu-west-1
+  MAIN_TABLE_NAME: ${sls:stage}-main
+  # Optional for Global Secondary Index
+  GSI_INDEX: gsi-index
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ${self:custom.region}
+
+resources:
+  Resources:
+    MainTable:
+      Type: "AWS::DynamoDB::Table"
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: PK
+            AttributeType: S
+          - AttributeName: SK
+            AttributeType: S
+          - AttributeName: status
+            AttributeType: S
+        KeySchema:
+          - AttributeName: PK
+            KeyType: HASH
+          - AttributeName: SK
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.MAIN_TABLE_NAME}
+
+        # Optional for Global Secondary Index
+        GlobalSecondaryIndexes:
+        - IndexName: ${self:custom.GSI_INDEX}
+          KeySchema:
+          - AttributeName: columnName
+            KeyType: HASH
+          - AttributeName: SK
+            KeyType: RANGE
+          Projection:
+            ProjectionType: 'ALL'
+  Outputs:
+    MainTableArn:
+      Value:
+        Fn::GetAtt:
+          - MainTable
+          - Arn
+      Export:
+        Name: ${sls:stage}-MainTableArn
+    IndexSKStatusArn:
+      # To be replace using Fn:GetAtt or GetJoin
+      Value: arn-here
+      Export:
+        Name: ${sls:stage}-GSIIndex
