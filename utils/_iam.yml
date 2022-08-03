@@ -1,0 +1,21 @@
+# S3
+- Effect: Allow
+  Action:
+    - s3:GetObject
+    - s3:PutObject
+  Resource: 
+    - arn:aws:s3:::bucket-name
+
+# DYNAMO DB
+- Effect: Allow
+  Action:
+    - dynamodb:DescribeTable
+    - dynamodb:Query
+    - dynamodb:Scan
+    - dynamodb:GetItem
+    - dynamodb:PutItem
+    - dynamodb:UpdateItem
+    - dynamodb:DeleteItem
+  Resource:
+    - "Fn::ImportValue": TableArn-${sls:stage}
+

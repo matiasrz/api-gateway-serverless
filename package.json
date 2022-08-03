@@ -1,0 +1,46 @@
+{
+  "name": "aws-serverless-ts",
+  "version": "1.0.0",
+  "description": "Template to generate Serverless Project for AWS written in Typescript",
+  "scripts": {
+    "test": "serverless-bundle test",
+    "start": "serverless offline start --stage dev",
+    "deploy-dev": "serverless deploy --aws-profile <your-profile-cli> -s dev",
+    "deploy-database-dev": "cd database/ && serverless deploy --aws-profile <your-profile-cli> -s dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matiasrz/aws-serverless-ts.git"
+  },
+  "keywords": [
+    "AWS",
+    "Typescript",
+    "Serverless"
+  ],
+  "author": "matiasrzeta",
+  "bugs": {
+    "url": "https://github.com/matiasrz/aws-serverless-ts/issues"
+  },
+  "homepage": "https://github.com/matiasrz/aws-serverless-ts#readme",
+  "dependencies": {
+    "aws-sdk": "^2.1187.0",
+    "typescript": "^4.7.4",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.101",
+    "@types/jest": "^28.1.6",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
+    "@typescript-eslint/parser": "^5.32.0",
+    "dotenv": "^16.0.1",
+    "eslint": "^8.21.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-import-resolver-typescript": "^3.4.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "serverless-bundle": "^5.4.0",
+    "serverless-offline": "^9.1.3"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "typeRoots": [
+    "node_modules/@types",
+    "types/core.d.ts",
+    "types/entities.d.ts",
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es6",
+    "lib": ["ESNext"],
+    "moduleResolution": "node",
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@/controllers/*": ["api/controllers/*"],
+      "@/models/*": ["api/models/*"],
+      "@/lib/*": ["lib/*"],
+    },
+  },
+  "exclude": []
+}

@@ -1,0 +1,8 @@
+mirror:
+  handler: api/mirror.healthCheck
+  events:
+    - httpApi:
+        path: /
+        method: get
+        authorizer:
+          type: aws_iam
