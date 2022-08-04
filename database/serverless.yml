@@ -5,7 +5,7 @@ custom:
   region: eu-west-1
   MAIN_TABLE_NAME: ${sls:stage}-main
   # Optional for Global Secondary Index
-  GSI_INDEX: gsi-index
+  # GSI_INDEX: gsi-index
 
 provider:
   name: aws
@@ -23,8 +23,6 @@ resources:
             AttributeType: S
           - AttributeName: SK
             AttributeType: S
-          - AttributeName: status
-            AttributeType: S
         KeySchema:
           - AttributeName: PK
             KeyType: HASH
@@ -34,15 +32,15 @@ resources:
         TableName: ${self:custom.MAIN_TABLE_NAME}
 
         # Optional for Global Secondary Index
-        GlobalSecondaryIndexes:
-        - IndexName: ${self:custom.GSI_INDEX}
-          KeySchema:
-          - AttributeName: columnName
-            KeyType: HASH
-          - AttributeName: SK
-            KeyType: RANGE
-          Projection:
-            ProjectionType: 'ALL'
+        # GlobalSecondaryIndexes:
+        # - IndexName: ${self:custom.GSI_INDEX}
+        #   KeySchema:
+        #   - AttributeName: columnName
+        #     KeyType: HASH
+        #   - AttributeName: SK
+        #     KeyType: RANGE
+        #   Projection:
+        #     ProjectionType: 'ALL'
   Outputs:
     MainTableArn:
       Value:
@@ -51,8 +49,8 @@ resources:
           - Arn
       Export:
         Name: ${sls:stage}-MainTableArn
-    IndexSKStatusArn:
-      # To be replace using Fn:GetAtt or GetJoin
-      Value: arn-here
-      Export:
-        Name: ${sls:stage}-GSIIndex
+    # IndexSKStatusArn:
+    #   # To be replace using Fn:GetAtt or GetJoin
+    #   Value: arn-here
+    #   Export:
+    #     Name: ${sls:stage}-GSIIndex

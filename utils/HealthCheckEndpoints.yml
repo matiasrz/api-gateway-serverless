@@ -3,6 +3,6 @@ mirror:
   events:
     - httpApi:
         path: /
-        method: get
+        method: GET
         authorizer:
           type: aws_iam

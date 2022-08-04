@@ -13,7 +13,6 @@ provider:
   runtime: nodejs14.x
   region: ${self:custom.region}
   versionFunctions: false
-  lambdaHashingVersion: "20201221"
   tracing:
     apiGateway: true
     lambda: true
@@ -24,17 +23,18 @@ provider:
     metrics: true
 
   environment:
-    AWS_ACCESS_KEY_ID: ${self:custom.environment.AWS_ACCESS_KEY_ID}
-    AWS_SECRET_ACCESS_KEY: ${self:custom.environment.AWS_SECRET_ACCESS_KEY}
+    AWS_LOCAL_ACCESS_KEY_ID: ${self:custom.environment.AWS_LOCAL_ACCESS_KEY_ID}
+    AWS_LOCAL_SECRET_ACCESS_KEY: ${self:custom.environment.AWS_LOCAL_SECRET_ACCESS_KEY}
     REGION: ${self:custom.region}
     STAGE: ${sls:stage}
 
     # TABLE ENVIRONMENT VARIABLES
     Table: ${file(./database/serverless.yml):custom.MAIN_TABLE_NAME}
-    
-  iamRoleStatements: ${file(./utils/_iam.yml)}
+
+  iam:
+    role:
+      statements: ${file(./utils/IAM.yml)}
+
 
 functions:
-  - ${file(./utils/endpoints-1.yml)}
-  - ${file(./utils/endpoints-2.yml)}
-  - ${file(./utils/endpoints-3.yml)}
+  - ${file(./utils/HealthCheckEndpoints.yml)}
