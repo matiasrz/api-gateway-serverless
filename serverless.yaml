@@ -6,7 +6,6 @@ plugins:
 
 custom:
   region: eu-west-1
-  environment: ${file(./env.yml):${sls:stage}, file(./env.yml):default}
 
 provider:
   name: aws
@@ -23,18 +22,19 @@ provider:
     metrics: true
 
   environment:
-    AWS_LOCAL_ACCESS_KEY_ID: ${self:custom.environment.AWS_LOCAL_ACCESS_KEY_ID}
-    AWS_LOCAL_SECRET_ACCESS_KEY: ${self:custom.environment.AWS_LOCAL_SECRET_ACCESS_KEY}
     REGION: ${self:custom.region}
     STAGE: ${sls:stage}
 
     # TABLE ENVIRONMENT VARIABLES
-    Table: ${file(./database/serverless.yml):custom.MAIN_TABLE_NAME}
+    Table: ${file(./database/serverless.yaml):custom.MAIN_TABLE_NAME}
 
   iam:
     role:
-      statements: ${file(./utils/IAM.yml)}
+      statements: ${file(./utils/IAM.yaml)}
 
 
 functions:
-  - ${file(./utils/HealthCheckEndpoints.yml)}
+  - ${file(./utils/HealthCheckEndpoints.yaml)}
+
+resources:
+  - ${file(./utils/Cognito.yaml)}
