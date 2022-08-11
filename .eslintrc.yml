@@ -100,6 +100,12 @@ rules:
     - vars: all
       args: after-used
       ignoreRestSiblings: false
+  lines-between-class-members:
+    - error
+    - always
+    - exceptAfterSingleLine: true
+  require-await: 'off'
+  '@typescript-eslint/require-await': error
 settings:
   import/resolver:
     typescript: {}
