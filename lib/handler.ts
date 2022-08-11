@@ -19,7 +19,8 @@ export default function handler<T>(lambda: (event: APIGatewayEvent, context: Con
       })
       .catch((error: unknown) => {
         logger.error('[Promise|ERROR]', error)
-        bodyJSON = JSON.stringify({ error })
+        const allowedKeys = Object.getOwnPropertyNames(error).filter((key) => key === 'message')
+        bodyJSON = JSON.stringify(error, allowedKeys)
       })
 
     return ({ statusCode, body: bodyJSON })

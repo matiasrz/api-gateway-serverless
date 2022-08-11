@@ -6,6 +6,9 @@ plugins:
 
 custom:
   region: eu-west-1
+  # STAGES AS UPPERCASE FOR DYNAMIC STRING INTERPOLATION
+  dev: DEV
+  prod: PROD
 
 provider:
   name: aws
@@ -22,11 +25,12 @@ provider:
     metrics: true
 
   environment:
-    REGION: ${self:custom.region}
+    API_URL: ${env:${self:custom.${sls:stage}}_API_URL}
+    AWS_L_ACCESS_KEY_ID: ${env:${self:custom.${sls:stage}}_AWS_ACCESS_KEY_ID}
+    AWS_L_SECRET_ACCESS_KEY: ${env:${self:custom.${sls:stage}}_AWS_SECRET_ACCESS_KEY}
+    AWS_USER_POOL_ID: !Ref ProjectUserPool
+    MAIN_TABLE: ${file(./database/serverless.yaml):custom.MAIN_TABLE_NAME}
     STAGE: ${sls:stage}
-
-    # TABLE ENVIRONMENT VARIABLES
-    Table: ${file(./database/serverless.yaml):custom.MAIN_TABLE_NAME}
 
   iam:
     role:
