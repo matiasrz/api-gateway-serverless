@@ -5,7 +5,7 @@ import { AttributeListType } from 'aws-sdk/clients/cognitoidentityserviceprovide
 import logger from './logger'
 import $env from '.'
 
-class Cognito {
+class AWSCognito {
   private instance = new CognitoIdentityServiceProvider()
 
   constructor() {
@@ -36,19 +36,66 @@ class Cognito {
   /**
    * Updates the user data on cognito
    * @param id string
-   * @param attributesToUpdate {@link AttributeListType} object
+   * @param attrs {@link AttributeListType} object
    */
-  async updateCognitoData(id: string, attributesToUpdate: AttributeListType) {
+  async updateUser(email: string, attrs: AttributeListType) {
     try {
       await this.instance.adminUpdateUserAttributes({
         UserPoolId: $env.AWS_USER_POOL_ID,
-        Username: id,
-        UserAttributes: attributesToUpdate
+        Username: email,
+        UserAttributes: attrs
       }).promise()
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
+  /**
+   * Create a user from data given
+   * This method covers:
+   * 1. Create user by passing temporaryPassword config
+   * 2. Automatic email verification
+   * @param attributesToUpdate {@link AttributeListType} object
+   */
+  async createUser(email: string, password?: string) {
+    let additionalKeys = {}
+    const hasValidPassword = password && typeof password === 'string'
+
+    if (hasValidPassword) {
+      additionalKeys = { MessageAction: 'SUPPRESS' }
+    }
+
+    try {
+      await this.instance.adminCreateUser({
+        UserPoolId: $env.AWS_USER_POOL_ID,
+        DesiredDeliveryMediums: ['EMAIL'],
+        Username: email,
+        ...additionalKeys,
+        UserAttributes: [
+          {
+            Name: 'email',
+            Value: email
+          },
+          {
+            Name: 'email_verified',
+            Value: 'true'
+          },
+        ],
+      }).promise()
+
+      if (hasValidPassword) {
+        await this.instance.adminSetUserPassword({
+          Password: password,
+          Username: email,
+          UserPoolId: $env.AWS_USER_POOL_ID,
+          Permanent: true
+        }).promise()
+      }
+
     } catch (error) {
       logger.error(error)
     }
   }
 }
 
-export default new Cognito()
+export default new AWSCognito()

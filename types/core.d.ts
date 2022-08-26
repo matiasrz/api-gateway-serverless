@@ -12,4 +12,17 @@ declare namespace ProjectName {
     log(message?: unknown, ...optionalParams: unknown[]): void,
     warn(message?: unknown, ...optionalParams: unknown[]): void
   }
+
+  /**
+   * Interface for SESSentAttributes
+   * @interface SESSentAttributes
+   */
+  export interface SESSentAttributes {
+    addresses: string,
+    subject: string,
+    template: string,
+    inviter?: string,
+    invitationURL?: string,
+  }
+
 }

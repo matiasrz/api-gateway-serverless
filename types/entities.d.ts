@@ -4,4 +4,17 @@
  * 
  * Database entities definition
  */
-declare namespace ProjectName.Entities {}
+declare namespace ProjectName.Entities {
+  /**
+ * Interface for base properties that entities share
+ */
+  export interface EntityCommonProps {
+    // Single table design keys
+    PK: string,
+    SK: string,
+
+    // Traceability attributes
+    createdAt: number,
+    updatedAt: number,
+  }
+}

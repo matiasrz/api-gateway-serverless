@@ -4,6 +4,7 @@ plugins:
   - serverless-bundle
   - serverless-offline
 
+useDotenv: true
 custom:
   region: eu-west-1
   # STAGES AS UPPERCASE FOR DYNAMIC STRING INTERPOLATION
@@ -35,7 +36,6 @@ provider:
   iam:
     role:
       statements: ${file(./utils/IAM.yaml)}
-
 
 functions:
   - ${file(./utils/HealthCheckEndpoints.yaml)}

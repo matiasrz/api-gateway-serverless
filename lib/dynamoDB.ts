@@ -10,7 +10,7 @@ import IPutItemOutput = DocumentClient.PutItemOutput
 import IDeleteItemInput = DocumentClient.DeleteItemInput
 import IDeleteItemOutput = DocumentClient.DeleteItemOutput
 
-class DynamoDB {
+class AWSDynamoDB {
   private instance = new DocumentClient()
 
   constructor() {
@@ -92,4 +92,4 @@ class DynamoDB {
   }
 }
 
-export default new DynamoDB()
+export default new AWSDynamoDB()
