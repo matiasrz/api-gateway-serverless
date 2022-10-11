@@ -24,6 +24,21 @@ provider:
       format: '{"requestTime":"$context.requestTime","requestId":"$context.requestId","userAgent":"$context.identity.userAgent","httpMethod":"$context.httpMethod","routeKey":"$context.routeKey","protocol":"$context.protocol","apiId":"$context.apiId","errorMessage":"$context.error.message","autorizerError":"$context.authorizer.error","methodStatus":"$context.status","integrationStatus":"$context.integration.status","responseLength":"$context.responseLength","responseLatency":"$context.responseLatency","integrationLatency":"$context.integrationLatency","authorizerLatency":"$context.authorizer.integrationLatency", "identityCaller": "$context.identity.caller"}'
   httpApi:
     metrics: true
+    cors:
+      allowedOrigins:
+        - http://localhost:3000
+    authorizers:
+      cognitoJWT:
+        type: JWT
+        name: authorizer
+        identitySource: $request.header.Authorization
+        issuerUrl:
+          Fn::Join:
+            - ""
+            - - https://cognito-idp.${self:custom.region}.amazonaws.com/
+              - !Ref ProjectUserPool
+        audience:
+          - !Ref ProjectUserPoolClient
 
   environment:
     API_URL: ${env:${self:custom.${sls:stage}}_API_URL}

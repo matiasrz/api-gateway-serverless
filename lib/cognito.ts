@@ -27,6 +27,7 @@ class AWSCognito {
 
   /**
    * Get identityId(UUID) from an APIGateway event object
+   * - To get a custom attribute from Cognito JWT => event.requestContext?.authorizer?.jwt?.claims['custom:uuid']
    * @param event with type {@link APIGatewayEvent}
    * @returns {string} cognitoIdentityId
    */
@@ -80,6 +81,10 @@ class AWSCognito {
             Name: 'email_verified',
             Value: 'true'
           },
+          // {
+          //   Name: 'custom:uuid',
+          //   Value: uuid
+          // },
         ],
       }).promise()
 
@@ -92,6 +97,21 @@ class AWSCognito {
         }).promise()
       }
 
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
+  /**
+   * Delete user from cognito user pool
+   * @param username string
+   */
+  async deleteUser(username: string) {
+    try {
+      await this.instance.adminDeleteUser({
+        UserPoolId: $env.AWS_USER_POOL_ID,
+        Username: username
+      }).promise()
     } catch (error) {
       logger.error(error)
     }

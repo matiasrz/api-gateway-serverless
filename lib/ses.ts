@@ -34,11 +34,12 @@ class AWSSES {
           throw new Error("(Clears throat) You know, I can't send an invitation with invalid inviter and invitationURL")
         }
         return this.invitationTemplate(inviter, invitationURL)
-        break
+
+      case 'propertyUpdated':
+        return this.propertyUpdatedTemplate()
 
       default:
         return undefined
-        break
     }
   }
 
@@ -54,16 +55,40 @@ class AWSSES {
       Html: {
         Data: `<div>
           <p>
-            ${inviter} welcomes you to Project!.</br>
+            ${inviter} welcomes you to Husjournalen!.</br>
             Please complete your registration <a href="${invitationURL}">here</a>
           </p>
         </div>`
       },
       Text: {
         Data: `
-          ${inviter} welcomes you to Project!\n
+          ${inviter} welcomes you to Husjournalen!\n
           Please complete your registration in the following link: \n
           ${invitationURL}
+        `
+      }
+    })
+  }
+
+  /**
+   * Compose proerty updated template
+   * @returns 
+   */
+  // eslint-disable-next-line class-methods-use-this
+  private propertyUpdatedTemplate(): SES.Body {
+    return ({
+      Html: {
+        Data: `<div>
+          <p>
+            Greetings from Husjournalen!.</br>
+            One of your properties has been updated, to check this info, go to our platform.
+          </p>
+        </div>`
+      },
+      Text: {
+        Data: `
+          Greetings from Husjournalen!.!\n
+          One of your properties has been updated, to check this info, go to our platform.
         `
       }
     })
@@ -82,9 +107,9 @@ class AWSSES {
 
     await this.instance.sendEmail({
       Destination: {
-        ToAddresses: addresses.split(';')
+        ToAddresses: addresses
       },
-      Source: 'matias+hsj-noreply@goco.dk',
+      Source: 'email@domain.com',
       Message: {
         Subject: {
           Data: subject

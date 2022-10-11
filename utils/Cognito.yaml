@@ -7,6 +7,9 @@ Resources:
           -
             Name: 'verified_email'
             Priority: 1
+      # AdminCreateUserConfig:
+      #   InviteMessageTemplate:
+      #     EmailMessage: 'Your username is {username} and temporary password is {####}.'
       AutoVerifiedAttributes:
         - 'email'
       # EmailVerificationMessage: 'email message: {####}'
@@ -24,6 +27,10 @@ Resources:
           RequireSymbols: false
           RequireUppercase: false
           TemporaryPasswordValidityDays: 1
+      # Schema:
+      #   - Name: uuid
+      #     AttributeDataType: String
+      #     Mutable: true
 
   # Creates a User Pool Client to be used by the identity pool
   ProjectUserPoolClient:
@@ -105,6 +112,14 @@ Resources:
                 Action:
                   - "lambda:InvokeFunction"
                 Resource: "*"
+              # - Effect: "Allow"
+              #   Action: 
+              #     - "s3:ListBucket"
+              #     - "s3:GetObject"
+              #     - "s3:PutObject"
+              #     - "s3:DeleteObject"
+              #   Resource:
+              #     - "arn:aws:s3:::husjournalen-property-docs/*"
 
   # Assigns the roles to the Identity Pool
   ProjectIdentityPoolRoleAttachment:

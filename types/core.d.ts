@@ -24,5 +24,4 @@ declare namespace ProjectName {
     inviter?: string,
     invitationURL?: string,
   }
-
 }

@@ -21,3 +21,31 @@ export const entityCore = (pkPrefix: string, skPrefix?: string): Partial<IEntity
     updatedAt: now,
   })
 }
+
+/**
+ * Extract UUID from a Key(PK, SK)
+ * @param key Prefix for PK key
+ * @returns 
+ */
+
+ export const getUUIDFromKey = (key: string): string => {
+  if (!key.includes('#')) return ''
+
+  return key.split('#')[1]
+}
+
+/**
+ * Structure composition for massive(up to 25) Put & Delete
+ * @param item
+ * @param requestType 
+ * @returns
+ */
+export function batchWriteStruct<TEntity extends IEntityCommonProps>(item: TEntity, requestType: string) {
+  const initialStruct: Record<string, unknown> = { Item: item }
+
+  if (requestType === 'Delete') {
+    initialStruct.Key = { PK: item.PK, SK: item.SK }
+  }
+
+  return initialStruct
+}
