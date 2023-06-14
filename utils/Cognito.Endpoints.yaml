@@ -1,0 +1,28 @@
+createAuthChallenge:
+  handler: api/controllers/CognitoController.create
+  events:
+    - cognitoUserPool:
+        pool: ${sls:stage}-project
+        trigger: CreateAuthChallenge
+        existing: true
+defineAuthChallenge:
+  handler: api/controllers/CognitoController.define
+  events:
+    - cognitoUserPool:
+        pool: ${sls:stage}-project
+        trigger: DefineAuthChallenge
+        existing: true
+preSignUpAuthChallenge:
+  handler: api/controllers/CognitoController.preSignUp
+  events:
+    - cognitoUserPool:
+        pool: ${sls:stage}-project
+        trigger: PreSignUp
+        existing: true
+verifyAuthChallenge:
+  handler: api/controllers/CognitoController.verify
+  events:
+    - cognitoUserPool:
+        pool: ${sls:stage}-project
+        trigger: VerifyAuthChallengeResponse
+        existing: true

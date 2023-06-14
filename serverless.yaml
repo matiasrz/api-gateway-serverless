@@ -54,6 +54,7 @@ provider:
 
 functions:
   - ${file(./utils/HealthCheckEndpoints.yaml)}
+  - ${file(./utils/Cognito.Endpoints.yaml)}
 
 resources:
   - ${file(./utils/Cognito.yaml)}
